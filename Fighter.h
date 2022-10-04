@@ -2,25 +2,24 @@
 
 #include <string>
 
-class Fighter
-{
-	public:
-		static int maxHp;
+class Fighter {
+public:
+	std::string name;
+	double defense;
+	double strength;
+	double speed;
+	double hp;
 
-		Fighter(std::string name, double defense, double strength, double speed);
-		~Fighter();
+	std::string GenHpBar(int length);
+	void Attack(Fighter* playerToAttack);
+	void Defend();
+	void Rest();
 
-		std::string name;
+	void TakeDamage(Fighter* attacker);
 
-		double defense;
-		double strength;
-		double speed;
-		double hp;
-
-		void Attack(Fighter* enemyToAttack);
-		void Damage(double attackersStrength);
-		void Defend();
-		void Rest();
-	protected:
-
+	Fighter(std::string name, double defense, double strength, double speed);
+	~Fighter();
+private:
+	double maxHp;
 };
+

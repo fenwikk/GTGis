@@ -128,10 +128,10 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="Game.cpp" />
-    <ClCompile Include="Source.cpp" />
-    <ClCompile Include="Library.cpp" />
     <ClCompile Include="Fighter.cpp" />
+    <ClCompile Include="Game.cpp" />
+    <ClCompile Include="Library.cpp" />
+    <ClCompile Include="Source.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Error.h" />

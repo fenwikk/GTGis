@@ -4,6 +4,11 @@
 #include <string>
 #include <functional>
 
+struct MenuItem {
+public:
+
+};
+
 struct PointMatrixElement {
 public:
 	std::string label;
@@ -12,12 +17,14 @@ public:
 
 void Clear();
 
+void Logo();
+
 void Row(std::vector<std::string> row);
 void Row(std::vector<std::string> row, int maxChars);
 
 int Menu(std::vector<std::string> labels);
-int Menu(std::vector<std::string> labels, std::function<void()> before);
-int Menu(std::vector<std::string> labels, std::function<void()> before, bool inlineLabels);
+
+void Stats();
 
 std::string NameInput(int numberOfCharacters);
-std::vector<PointMatrixElement> DistributePoints();
+std::vector<PointMatrixElement> DistributePoints(int availablePoints);

@@ -1,4 +1,5 @@
 #include <iostream>
+#include <Windows.h>
 #include "Library.h"
 
 #include "Fighter.h"
@@ -31,11 +32,45 @@ void Fighter::TakeDamage(Fighter* attacker) {
 	std::cout << this->name << " took " << damageDealt << " damage.\n";
 }
 
-Fighter::Fighter(std::string newName, double newDefense, double newStrength, double newSpeed) {
+Fighter::Fighter(int playerNumber) {
+	HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
+
+	Clear();
+
+	std::cout << "Input name for [P" << playerNumber << "]\n";
+
+	std::string newName = NameInput(3);
+
+	std::vector<PointMatrixElement> points = {};
+	bool acceptedPoints = false;
+	while (acceptedPoints == false) {
+		points = DistributePoints(10, name, playerNumber);
+
+		std::cout << "<" << name << ">" << "\n";
+		std::cout << "Defense:  ";
+		SetConsoleTextAttribute(hConsole, 14);
+		std::cout << points[0].points << "\n";
+		SetConsoleTextAttribute(hConsole, 7);
+
+		std::cout << "Strength: ";
+		SetConsoleTextAttribute(hConsole, 14);
+		std::cout << points[1].points << "\n";
+		SetConsoleTextAttribute(hConsole, 7);
+
+		std::cout << "Speed:    ";
+		SetConsoleTextAttribute(hConsole, 14);
+		std::cout << points[2].points << "\n\n";
+		SetConsoleTextAttribute(hConsole, 7);
+
+		std::cout << "Accept points distribution?\n";
+
+		acceptedPoints = !Menu({ "Yes", "No" });
+	}
+
 	name = newName;
-	defense = newDefense;
-	strength = newStrength;
-	speed = newSpeed;
+	defense = points[0].points;
+	strength = points[1].points;
+	speed = points[2].points;
 	hp = 20;
 	maxHp = 20;
 }

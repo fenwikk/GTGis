@@ -16,41 +16,8 @@ int main() {
 		std::cout << "How many will play?\n";
 		int numberOfPlayers = Menu({ "2P", "3P", "4P", "5P" }) + 2;
 
-		for (size_t i = 0; i < numberOfPlayers; i++) {
-			Clear();
-		
-			std::cout << "Input name for [P" << i + 1 << "]\n";
-
-			std::string name = NameInput(3);
-
-			std::vector<PointMatrixElement> points = {};
-			bool acceptedPoints = false;
-			while (acceptedPoints == false) {
-				points = DistributePoints(10);
-
-				std::cout << "<" << name << ">" << "\n";
-				std::cout << "Defense:  ";
-				SetConsoleTextAttribute(hConsole, 14);
-				std::cout << points[0].points << "\n";
-				SetConsoleTextAttribute(hConsole, 7);
-
-				std::cout << "Strength: ";
-				SetConsoleTextAttribute(hConsole, 14);
-				std::cout << points[1].points << "\n";
-				SetConsoleTextAttribute(hConsole, 7);
-
-				std::cout << "Speed:    ";
-				SetConsoleTextAttribute(hConsole, 14);
-				std::cout << points[2].points << "\n\n";
-				SetConsoleTextAttribute(hConsole, 7);
-
-				std::cout << "Accept points distribution?\n";
-
-				acceptedPoints = !Menu({ "Yes", "No" });
-			}
-
-			players[i] = new Fighter(name, points[0].points, points[1].points, points[2].points);
-		}
+		for (size_t i = 0; i < numberOfPlayers; i++) 
+			players[i] = new Fighter(i);
 
 		Game::players = players;
 

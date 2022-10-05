@@ -211,7 +211,7 @@ std::string NameInput(int numberOfCharacters) {
 	return input;
 }
 
-std::vector<PointMatrixElement> DistributePoints(int availablePoints) {
+std::vector<PointMatrixElement> DistributePoints(int availablePoints, std::string playerName, int playerNumber) {
 	std::vector<PointMatrixElement> pointsMatrix {
 		{"Defense:  ", 5},
 		{"Strength: ", 5},
@@ -225,6 +225,7 @@ std::vector<PointMatrixElement> DistributePoints(int availablePoints) {
 	while (availablePoints > 0) {
 		Clear();
 
+		std::cout << "Distribute skillpoints for [P" << playerNumber << "] <" << playerName << ">\n";
 		std::cout << "Remaining points: " << availablePoints << "\n\n";
 
 		for (int i = 0; i < pointsMatrix.size(); i++) {

@@ -27,4 +27,4 @@ int Menu(std::vector<std::string> labels);
 void Stats();
 
 std::string NameInput(int numberOfCharacters);
-std::vector<PointMatrixElement> DistributePoints(int availablePoints);
+std::vector<PointMatrixElement> DistributePoints(int availablePoints, std::string playerName, int playerNumber);

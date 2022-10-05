@@ -17,7 +17,7 @@ public:
 
 	void TakeDamage(Fighter* attacker);
 
-	Fighter(std::string name, double defense, double strength, double speed);
+	Fighter(int playerNumber);
 	~Fighter();
 private:
 	double maxHp;

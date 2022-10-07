@@ -148,11 +148,11 @@ void Stats() {
 		if (Game::players[i] != nullptr) {
 			Fighter* player = Game::players[i];
 
-			names.push_back("    <" + Game::players[i]->name + ">");
+			names.push_back("    <" + Game::players[i]->GetName() + ">");
 			hp.push_back(player->GenHpBar(13));
-			defense.push_back("defense:   " + std::format("{:02}", player->defense)); 
-			strength.push_back("strength:  " + std::format("{:02}", player->strength));
-			speed.push_back("speed:     " + std::format("{:02}", player->speed));      
+			defense.push_back("defense:   " + std::format("{:02}", player->GetDefense())); 
+			strength.push_back("strength:  " + std::format("{:02}", player->GetStrength()));
+			speed.push_back("speed:     " + std::format("{:02}", player->GetSpeed()));      
 		}
 		else {
 			names.push_back("");
@@ -329,7 +329,7 @@ Fighter** SortFightersBySpeed(Fighter** fighters) {
 		fightersSorted = true;
 		for (size_t i = 1; i < 5; i++) {
 			if (fighters[i] != nullptr) {
-				if (fighters[i - 1] == nullptr || fighters[i]->speed > fighters[i - 1]->speed) {
+				if (fighters[i - 1] == nullptr || fighters[i]->GetSpeed() > fighters[i - 1]->GetSpeed()) {
 					Fighter* tempFighter = fighters[i];
 					fighters[i] = fighters[i - 1];
 					fighters[i - 1] = tempFighter;

@@ -39,7 +39,7 @@ void Fighter::Attack() {
 			disabledItems.push_back(true);
 		}
 		else {
-			names.push_back(Game::players[i]->name);
+			names.push_back(Game::players[i]->GetName());
 			if (Game::players[i] == this)
 				disabledItems.push_back(true);
 			else
@@ -53,20 +53,20 @@ void Fighter::Attack() {
 void Fighter::Defend() {
 	Clear();
 
-	Write("<" + name + "> defended themselves");
+	Write("<" + GetName() + "> defended themselves");
 	WaitForEnterPress();
 
 	defense += 2;
-	Write("<" + name + ">s defense went up by 2 points");
+	Write("<" + GetName() + ">s defense went up by 2 points");
 	WaitForEnterPress();
 
 	if (speed > 0) {
 		speed--;
-		Write("<" + name + ">s speed went down by 1 point");
+		Write("<" + GetName() + ">s speed went down by 1 point");
 		WaitForEnterPress();
 	}
 	else {
-		Write("<" + name + ">s speed is already at minimum. Speed was not changed");
+		Write("<" + GetName() + ">s speed is already at minimum. Speed was not changed");
 		WaitForEnterPress();
 	}
 }
@@ -74,20 +74,20 @@ void Fighter::Defend() {
 void Fighter::WorkUp() {
 	Clear();
 
-	Write("<" + name + "> worked up!");
+	Write("<" + GetName() + "> worked up!");
 	WaitForEnterPress();
 
 	strength += 2;
-	Write("<" + name + ">s strength went up by 2 points");
+	Write("<" + GetName() + ">s strength went up by 2 points");
 	WaitForEnterPress();
 
 	if (speed > 0) {
 		speed--;
-		Write("<" + name + ">s speed went down by 1 point");
+		Write("<" + GetName() + ">s speed went down by 1 point");
 		WaitForEnterPress();
 	}
 	else {
-		Write("<" + name + ">s speed is already at minimum. Speed was not changed");
+		Write("<" + GetName() + ">s speed is already at minimum. Speed was not changed");
 		WaitForEnterPress();
 	}
 
@@ -98,13 +98,13 @@ void Fighter::Rest() {
 
 	int originalHp = hp;
 
-	Write("<" + name + "> rested");
+	Write("<" + GetName() + "> rested");
 	WaitForEnterPress();
 
 	hp += 20;
 	if (hp > 100)
 		hp = 100;
-	Write("<" + name + "> healed " + std::to_string(hp - originalHp) + " HP");
+	Write("<" + GetName() + "> healed " + std::to_string(hp - originalHp) + " HP");
 	WaitForEnterPress();
 }
 
@@ -114,14 +114,14 @@ void Fighter::TakeDamage(Fighter* attacker) {
 
 	Clear();
 
-	Write("<" + attacker->name + "> attacked <" + name + ">!");
+	Write("<" + attacker->GetName() + "> attacked <" + GetName() + ">!");
 	WaitForEnterPress();
 
-	Write("<" + name + "> took " + std::to_string(damageDealt) +" damage.");
+	Write("<" + GetName() + "> took " + std::to_string(damageDealt) +" damage.");
 	WaitForEnterPress();
 
 	if (hp <= 0) {
-		Write("Player <" + name + "> perished.\n");
+		Write("Player <" + GetName() + "> perished.\n");
 		for (size_t i = 0; i < 5; i++) {
 			if (Game::players[i] == this) {
 				Game::players[i] = nullptr;
@@ -132,6 +132,28 @@ void Fighter::TakeDamage(Fighter* attacker) {
 	}
 }
 
+
+
+std::string Fighter::GetName() {
+	return GetName();
+}
+
+int Fighter::GetDefense() {
+	return defense;
+}
+
+int Fighter::GetStrength() {
+	return strength;
+}
+
+int Fighter::GetSpeed() {
+	return speed;
+}
+
+int Fighter::GetHp() {
+	return hp;
+}
+
 Fighter::Fighter(int playerNumber) : hp(maxHp)
 {
 	HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
@@ -140,9 +162,9 @@ Fighter::Fighter(int playerNumber) : hp(maxHp)
 
 	bool confirmedName = false;
 	while (!confirmedName) {
-		std::cout << "Input name for [P" << playerNumber << "]\n";
+		std::cout << "Input GetName() for [P" << playerNumber << "]\n";
 
-		name = NameInput(3);
+		GetName() = NameInput(3);
 
 		Clear();
 
@@ -150,9 +172,9 @@ Fighter::Fighter(int playerNumber) : hp(maxHp)
 		for (size_t i = 0; i < 5; i++) {
 			Fighter* player = Game::players[i];
 			if (Game::players[i] != nullptr) 
-				if (Game::players[i]->name == name) {
+				if (Game::players[i]->GetName() == GetName()) {
 					SetConsoleTextAttribute(hConsole, 12);
-					std::cout << "The name <" << name << "> has already been taken. Retry with another name.\n";
+					std::cout << "The GetName() <" << GetName() << "> has already been taken. Retry with another GetName().\n";
 					SetConsoleTextAttribute(hConsole, 7);
 					isDuplicate = true;
 				}
@@ -160,7 +182,7 @@ Fighter::Fighter(int playerNumber) : hp(maxHp)
 
 		if (!isDuplicate) {
 			Clear();
-			std::cout << "Accept name <" << name << ">\n";
+			std::cout << "Accept GetName() <" << GetName() << ">\n";
 
 			confirmedName = !Menu({ "Yes", "No" });
 
@@ -173,9 +195,9 @@ Fighter::Fighter(int playerNumber) : hp(maxHp)
 	std::vector<PointMatrixElement> points = {};
 	bool confirmedPoints = false;
 	while (confirmedPoints == false) {
-		points = DistributePoints(10, name, playerNumber);
+		points = DistributePoints(10, GetName(), playerNumber);
 
-		std::cout << "<" << name << ">" << "\n";
+		std::cout << "<" << GetName() << ">" << "\n";
 		std::cout << "Defense:  ";
 		SetConsoleTextAttribute(hConsole, 14);
 		std::cout << points[0].points << "\n";

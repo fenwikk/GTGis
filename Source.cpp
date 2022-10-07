@@ -43,7 +43,7 @@ int main() {
 		if (currentPlayer == nullptr)
 			throw new Error("Player does not exist!");
 
-		std::cout << "<" << currentPlayer->name << ">s turn.\n";
+		std::cout << "<" << currentPlayer->GetName() << ">s turn.\n";
 		std::cout << "What will you do?\n";
 
 		int actionChoice = Menu({ "Attack", "Defend", "Work up", "Rest" });
@@ -82,7 +82,7 @@ int main() {
 	if (lastPlayer == nullptr)
 		throw new Error("No one is left alive");
 
-	std::cout << "<" << lastPlayer->name << "> won with " << lastPlayer->hp << " HP left";
+	std::cout << "<" << lastPlayer->GetName() << "> won with " << lastPlayer->GetHp() << " HP left";
 
 	return 0;
 }

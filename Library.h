@@ -9,7 +9,7 @@
 struct PointMatrixElement {
 public:
 	std::string label;
-	double points;
+	int points;
 };
 
 void Clear();

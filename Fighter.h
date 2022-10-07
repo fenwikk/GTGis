@@ -4,7 +4,7 @@
 
 class Fighter {
 public:
-	const double maxHp = 100;
+	const int maxHp = 100;
 
 	std::string GenHpBar(int length);
 	void Attack();

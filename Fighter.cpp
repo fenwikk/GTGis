@@ -109,7 +109,7 @@ void Fighter::Rest() {
 }
 
 void Fighter::TakeDamage(Fighter* attacker) {
-	int damageDealt = floor(attacker->strength / this->defense * 20);
+	int damageDealt = (int)floor(attacker->strength / this->defense * 20);
 	hp -= damageDealt;
 
 	Clear();

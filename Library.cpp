@@ -42,14 +42,14 @@ void WaitForEnterPress() {
 }
 
 void Logo() {
-	std::cout << ",---------------------------------------------------------------------,\n";
-	std::cout << "|                ___________________________.__                       |\n";
-	std::cout << "|               /  _____/\\__    ___/  _____/|__| ______               |\n";
-	std::cout << "|              /   \\  ___  |    | /   \\  ___|  |/  ___/               |\n";
-	std::cout << "|              \\    \\_\\  \\ |    | \\    \\_\\  \\  |\\___ \\                |\n";
-	std::cout << "|               \\______  / |____|  \\______  /__/____  >               |\n";
-	std::cout << "|                      \\/                 \\/        \\/                |\n";
-	std::cout << "'---------------------------------------------------------------------'\n\n";
+	std::cout << ",-----------------------------------------------------------------------,\n";
+	std::cout << "|                  ___________________________.__                       |\n";
+	std::cout << "|                 /  _____/\\__    ___/  _____/|__| ______               |\n";
+	std::cout << "|                /   \\  ___  |    | /   \\  ___|  |/  ___/               |\n";
+	std::cout << "|                \\    \\_\\  \\ |    | \\    \\_\\  \\  |\\___ \\                |\n";
+	std::cout << "|                 \\______  / |____|  \\______  /__/____  >               |\n";
+	std::cout << "|                        \\/                 \\/        \\/                |\n";
+	std::cout << "'-----------------------------------------------------------------------'\n\n";
 }
 
 void Row(std::vector<std::string> row, int maxChars) {
@@ -148,11 +148,11 @@ void Stats() {
 		if (Game::players[i] != nullptr) {
 			Fighter* player = Game::players[i];
 
-			names.push_back("   <" + Game::players[i]->name + ">");
-			hp.push_back(player->GenHpBar(11));
-			defense.push_back("def:  " + std::format("{:05.2f}", player->defense)); 
-			strength.push_back("str:  " + std::format("{:05.2f}", player->strength));
-			speed.push_back("spd:  " + std::format("{:05.2f}", player->speed));      
+			names.push_back("    <" + Game::players[i]->name + ">");
+			hp.push_back(player->GenHpBar(13));
+			defense.push_back("defense:   " + std::format("{:02}", player->defense)); 
+			strength.push_back("strength:  " + std::format("{:02}", player->strength));
+			speed.push_back("speed:     " + std::format("{:02}", player->speed));      
 		}
 		else {
 			names.push_back("");

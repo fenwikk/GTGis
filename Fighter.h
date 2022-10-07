@@ -6,10 +6,10 @@ class Fighter {
 public:
 	const double maxHp = 100;
 	std::string name;
-	double defense;
-	double strength;
-	double speed;
-	double hp;
+	int defense;
+	int strength;
+	int speed;
+	int hp;
 
 	std::string GenHpBar(int length);
 	void Attack();

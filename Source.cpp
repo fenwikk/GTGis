@@ -19,7 +19,7 @@ int main() {
 		std::cout << "How many will play?\n";
 		int numberOfPlayers = Menu({ "2P", "3P", "4P", "5P" }) + 2;
 
-		for (size_t i = 0; i < numberOfPlayers; i++) 
+		for (int i = 0; i < numberOfPlayers; i++) 
 			players[i] = new Fighter(i + 1);
 
 
@@ -39,6 +39,9 @@ int main() {
 		Fighter* currentPlayer = players[playerTurn];
 
 		Clear();
+
+		if (currentPlayer == nullptr)
+			throw new Error("Player does not exist!");
 
 		std::cout << "<" << currentPlayer->name << ">s turn.\n";
 		std::cout << "What will you do?\n";
@@ -75,6 +78,10 @@ int main() {
 	}
 
 	Fighter* lastPlayer = players[0];
+
+	if (lastPlayer == nullptr)
+		throw new Error("No one is left alive");
+
 	std::cout << "<" << lastPlayer->name << "> won with " << lastPlayer->hp << " HP left";
 
 	return 0;

@@ -11,9 +11,9 @@ std::string Fighter::GenHpBar(int length) {
 	int hpLeft;
 
 	if (hp < (maxHp / 2))
-		hpLeft = ceil((hp / maxHp) * (length - 2));
+		hpLeft = (int)ceil((hp / maxHp) * (length - 2));
 	else
-		hpLeft = floor((hp / maxHp) * (length - 2));
+		hpLeft = (int)floor((hp / maxHp) * (length - 2));
 
 	for (size_t i = 0; i < hpLeft; i++) {
 		bar += "#";

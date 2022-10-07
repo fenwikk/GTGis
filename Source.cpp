@@ -13,6 +13,7 @@ int main() {
 	bool finishedSetup = false;
 
 	Fighter* players[] = {nullptr, nullptr, nullptr, nullptr, nullptr};
+	Game::players = players;
 	while (finishedSetup == false) {
 		Clear();
 		std::cout << "How many will play?\n";
@@ -21,7 +22,6 @@ int main() {
 		for (size_t i = 0; i < numberOfPlayers; i++) 
 			players[i] = new Fighter(i + 1);
 
-		Game::players = players;
 
 		Clear();
 

@@ -53,37 +53,44 @@ void Fighter::Attack() {
 void Fighter::Defend() {
 	Clear();
 
-	std::cout << "<" << name << "> defended themselves\n";
+	Write("<" + name + "> defended themselves\n");
+	WaitForEnterPress();
 
 	defense += 2;
-	std::cout << "<" << name << ">s defense went up by " << 2 << " points\n";
-
-	if (speed <= 0) {
-		speed--;
-		std::cout << "<" << name << ">s speed went down by " << 1 << " point\n";
-	}
-	else
-		std::cout << "<" << name << ">s speed is already at minimum. Speed was not changed\n";
-
+	Write("<" + name + ">s defense went up by 2 points\n");
 	WaitForEnterPress();
+
+	if (speed > 0) {
+		speed--;
+		Write("<" + name + ">s speed went down by 1 point\n");
+		WaitForEnterPress();
+	}
+	else {
+		Write("<" + name + ">s speed is already at minimum. Speed was not changed\n");
+		WaitForEnterPress();
+	}
 }
 
 void Fighter::WorkUp() {
 	Clear();
 
-	std::cout << "<" << name << "> worked up!\n";
+	Write("<" + name + "> worked up!");
+	WaitForEnterPress();
 
 	strength += 2;
-	std::cout << "<" << name << ">s strength went up by " << 2 << " points\n";
-
-	if (speed <= 0) {
-		speed--;
-		std::cout << "<" << name << ">s speed went down by " << 1 << " point\n";
-	}
-	else
-		std::cout << "<" << name << ">s speed is already at minimum. Speed was not changed\n";
-
+	Write("<" + name + ">s strength went up by 2 points");
 	WaitForEnterPress();
+
+	if (speed > 0) {
+		speed--;
+		Write("<" + name + ">s speed went down by 1 point");
+		WaitForEnterPress();
+	}
+	else {
+		Write("<" + name + ">s speed is already at minimum. Speed was not changed");
+		WaitForEnterPress();
+	}
+
 }
 
 void Fighter::Rest() {
@@ -91,13 +98,13 @@ void Fighter::Rest() {
 
 	int originalHp = hp;
 
-	std::cout << "<" << name << "> rested\n";
+	Write("<" + name + "> rested\n");
+	WaitForEnterPress();
 
 	hp += 20;
 	if (hp > 100)
 		hp = 100;
-	std::cout << "<" << name << "> healed " << hp - originalHp << " HP\n";
-
+	Write("<" + name + "> healed " + std::to_string(hp - originalHp) + " HP\n");
 	WaitForEnterPress();
 }
 
@@ -107,13 +114,13 @@ void Fighter::TakeDamage(Fighter* attacker) {
 
 	Clear();
 
-	std::cout << "<" << attacker->name << "> attacked " << this->name << "!\n";
-	std::cout << "<" << name << "> took " << damageDealt << " damage.\n";
+	Write("<" + attacker->name + "> attacked " + name + "!\n");
+	Write("<" + name + "> took " + std::to_string(damageDealt) +" damage.\n");
 
 	WaitForEnterPress();
 
 	if (hp <= 0) {
-		std::cout << "Player <" << name << "> perished.\n";
+		Write("Player <" + name + "> perished.\n");
 		for (size_t i = 0; i < 5; i++) {
 			if (Game::players[i] == this) {
 				Game::players[i] = nullptr;
@@ -130,16 +137,39 @@ Fighter::Fighter(int playerNumber) : hp(maxHp)
 
 	Clear();
 
-	std::cout << "Input name for [P" << playerNumber << "]\n";
+	bool confirmedName = false;
+	while (!confirmedName) {
+		std::cout << "Input name for [P" << playerNumber << "]\n";
 
-	std::string newName = NameInput(3);
+		name = NameInput(3);
+
+		Clear();
+
+		bool isDuplicate = false;
+		for (size_t i = 0; i < 5; i++) {
+			Fighter* player = Game::players[i];
+			if (Game::players[i] != nullptr) 
+				if (Game::players[i]->name == name) {
+					std::cout << "The name <" << name << "> has already been taken. Retry with another name.\n";
+					isDuplicate = true;
+				}
+		}
+
+		if (!isDuplicate) {
+			Clear();
+			std::cout << "Accept name: <" << name << ">?\n";
+
+			confirmedName = !Menu({ "Yes", "No" });
+		}
+
+	}
 
 	std::vector<PointMatrixElement> points = {};
-	bool acceptedPoints = false;
-	while (acceptedPoints == false) {
-		points = DistributePoints(10, newName, playerNumber);
+	bool confirmedPoints = false;
+	while (confirmedPoints == false) {
+		points = DistributePoints(10, name, playerNumber);
 
-		std::cout << "<" << newName << ">" << "\n";
+		std::cout << "<" << name << ">" << "\n";
 		std::cout << "Defense:  ";
 		SetConsoleTextAttribute(hConsole, 14);
 		std::cout << points[0].points << "\n";
@@ -157,10 +187,9 @@ Fighter::Fighter(int playerNumber) : hp(maxHp)
 
 		std::cout << "Accept points distribution?\n";
 
-		acceptedPoints = !Menu({ "Yes", "No" });
+		confirmedPoints = !Menu({ "Yes", "No" });
 	}
 
-	name = newName;
 	defense = points[0].points;
 	strength = points[1].points;
 	speed = points[2].points;

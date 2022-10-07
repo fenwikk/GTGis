@@ -16,6 +16,8 @@ void Clear();
 
 void Logo();
 
+void Write(std::string s);
+
 void WaitForEnterPress();
 
 void Row(std::vector<std::string> row, int maxChars = 75);

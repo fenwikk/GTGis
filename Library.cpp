@@ -19,6 +19,13 @@ void Clear() {
 		Stats();
 }
 
+void Write(std::string s) {
+	for (size_t i = 0; i < s.size(); i++) {
+		std::cout << s[i];
+		Sleep(50);
+	}
+}
+
 void WaitForEnterPress() {
 	std::cout << "\nPress enter to continue...\r";
 

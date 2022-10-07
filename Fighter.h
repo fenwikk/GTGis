@@ -4,7 +4,7 @@
 
 class Fighter {
 public:
-	static const double maxHp;
+	const double maxHp = 100;
 	std::string name;
 	double defense;
 	double strength;

@@ -5,12 +5,16 @@
 #include "Fighter.h"
 #include "Game.h"
 
-static const double maxHp = 20;
-
 std::string Fighter::GenHpBar(int length) {
 	std::string bar = "";
 
-	int hpLeft = (hp / maxHp) * (length - 2);
+	int hpLeft;
+
+	if (hp < (maxHp / 2))
+		hpLeft = ceil((hp / maxHp) * (length - 2));
+	else
+		hpLeft = floor((hp / maxHp) * (length - 2));
+
 	for (size_t i = 0; i < hpLeft; i++) {
 		bar += "#";
 	}
@@ -47,13 +51,13 @@ void Fighter::Attack() {
 }
 
 void Fighter::TakeDamage(Fighter* attacker) {
-	double damageDealt = attacker->strength / this->defense * 2;
+	int damageDealt = floor(attacker->strength / this->defense * 20);
 	hp -= damageDealt;
 
 	Clear();
 
 	std::cout << attacker->name << " attacked " << this->name << "!\n";
-	std::cout << this->name << " took damage.\n";
+	std::cout << this->name << " took " << damageDealt << " damage.\n";
 
 	WaitForEnterPress();
 

@@ -14,6 +14,7 @@ public:
 	std::string GenHpBar(int length);
 	void Attack();
 	void Defend();
+	void WorkUp();
 	void Rest();
 
 	void TakeDamage(Fighter* attacker);

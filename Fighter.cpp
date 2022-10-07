@@ -50,14 +50,65 @@ void Fighter::Attack() {
 	Game::players[whoToAttack]->TakeDamage(this);
 }
 
+void Fighter::Defend() {
+	Clear();
+
+	std::cout << "<" << name << "> defended themselves\n";
+
+	defense += 2;
+	std::cout << "<" << name << ">s defense went up by " << 2 << " points\n";
+
+	if (speed <= 0) {
+		speed--;
+		std::cout << "<" << name << ">s speed went down by " << 1 << " point\n";
+	}
+	else
+		std::cout << "<" << name << ">s speed is already at minimum. Speed was not changed\n";
+
+	WaitForEnterPress();
+}
+
+void Fighter::WorkUp() {
+	Clear();
+
+	std::cout << "<" << name << "> worked up!\n";
+
+	strength += 2;
+	std::cout << "<" << name << ">s strength went up by " << 2 << " points\n";
+
+	if (speed <= 0) {
+		speed--;
+		std::cout << "<" << name << ">s speed went down by " << 1 << " point\n";
+	}
+	else
+		std::cout << "<" << name << ">s speed is already at minimum. Speed was not changed\n";
+
+	WaitForEnterPress();
+}
+
+void Fighter::Rest() {
+	Clear();
+
+	int originalHp = hp;
+
+	std::cout << "<" << name << "> rested\n";
+
+	hp += 20;
+	if (hp > 100)
+		hp = 100;
+	std::cout << "<" << name << "> healed " << hp - originalHp << " HP\n";
+
+	WaitForEnterPress();
+}
+
 void Fighter::TakeDamage(Fighter* attacker) {
 	int damageDealt = floor(attacker->strength / this->defense * 20);
 	hp -= damageDealt;
 
 	Clear();
 
-	std::cout << attacker->name << " attacked " << this->name << "!\n";
-	std::cout << this->name << " took " << damageDealt << " damage.\n";
+	std::cout << "<" << attacker->name << "> attacked " << this->name << "!\n";
+	std::cout << "<" << name << "> took " << damageDealt << " damage.\n";
 
 	WaitForEnterPress();
 

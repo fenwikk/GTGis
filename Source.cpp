@@ -1,6 +1,7 @@
 #include <iostream>
 
 #include "Game.h"
+#include "Error.h"
 #include "Library.h"
 #include "Fighter.h"
 #include <Windows.h>
@@ -42,12 +43,23 @@ int main() {
 		std::cout << "<" << players[playerTurn]->name << ">s turn.\n";
 		std::cout << "What will you do?\n";
 
-		int actionChoice = Menu({ "Attack", "Defend", "Rest" });
+		int actionChoice = Menu({ "Attack", "Defend", "Work up", "Rest" });
 
 		switch (actionChoice) {
 		case 0:
 			players[playerTurn]->Attack();
+			break;
+		case 1:
+			players[playerTurn]->Defend();
+			break;
+		case 2:
+			players[playerTurn]->WorkUp();
+			break;
+		case 3:
+			players[playerTurn]->Rest();
+			break;
 		default:
+			throw new Error("Action does not exist!");
 			break;
 		}
 

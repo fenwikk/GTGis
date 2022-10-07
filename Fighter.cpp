@@ -164,7 +164,7 @@ Fighter::Fighter(int playerNumber) : hp(maxHp)
 	while (!confirmedName) {
 		std::cout << "Input name for [P" << playerNumber << "]\n";
 
-		GetName() = NameInput(3);
+		name = NameInput(3);
 
 		Clear();
 
@@ -182,7 +182,7 @@ Fighter::Fighter(int playerNumber) : hp(maxHp)
 
 		if (!isDuplicate) {
 			Clear();
-			std::cout << "Accept GetName() <" << GetName() << ">\n";
+			std::cout << "Accept name <" << name << ">\n";
 
 			confirmedName = !Menu({ "Yes", "No" });
 

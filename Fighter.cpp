@@ -135,7 +135,7 @@ void Fighter::TakeDamage(Fighter* attacker) {
 
 
 std::string Fighter::GetName() {
-	return GetName();
+	return name;
 }
 
 int Fighter::GetDefense() {

@@ -87,7 +87,6 @@ int Menu(std::vector<std::string> labels, std::vector<bool> disabled) {
 		std::cout << "\r";
 
 		for (size_t i = 0; i < labels.size(); i++) {
-
 			SetConsoleTextAttribute(hConsole, 12);
 			std::cout << (selectedIndex == i ? ">" : " ");
 			SetConsoleTextAttribute(hConsole, (disabled[i] ? 7 : 15));

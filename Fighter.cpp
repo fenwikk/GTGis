@@ -162,7 +162,7 @@ Fighter::Fighter(int playerNumber) : hp(maxHp)
 
 	bool confirmedName = false;
 	while (!confirmedName) {
-		std::cout << "Input GetName() for [P" << playerNumber << "]\n";
+		std::cout << "Input name for [P" << playerNumber << "]\n";
 
 		GetName() = NameInput(3);
 

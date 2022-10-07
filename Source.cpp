@@ -36,27 +36,27 @@ int main() {
 	int playerTurn = 0;
 	SortFightersBySpeed(players);
 	while (Game::PlayersLeft() > 1) {
-		int playersleft = Game::PlayersLeft();
+		Fighter* currentPlayer = players[playerTurn];
 
 		Clear();
 
-		std::cout << "<" << players[playerTurn]->name << ">s turn.\n";
+		std::cout << "<" << currentPlayer->name << ">s turn.\n";
 		std::cout << "What will you do?\n";
 
 		int actionChoice = Menu({ "Attack", "Defend", "Work up", "Rest" });
 
 		switch (actionChoice) {
 		case 0:
-			players[playerTurn]->Attack();
+			currentPlayer->Attack();
 			break;
 		case 1:
-			players[playerTurn]->Defend();
+			currentPlayer->Defend();
 			break;
 		case 2:
-			players[playerTurn]->WorkUp();
+			currentPlayer->WorkUp();
 			break;
 		case 3:
-			players[playerTurn]->Rest();
+			currentPlayer->Rest();
 			break;
 		default:
 			throw new Error("Action does not exist!");
@@ -73,7 +73,8 @@ int main() {
 			playerTurn = 0;
 	}
 
-	std::cout << "<" << players[0]->name << "> won with " << players[0]->hp << " HP left";
+	Fighter* lastPlayer = players[0];
+	std::cout << "<" << lastPlayer->name << "> won with " << lastPlayer->hp << " HP left";
 
 	return 0;
 }

@@ -11,7 +11,7 @@ public:
 	double hp;
 
 	std::string GenHpBar(int length);
-	void Attack(Fighter* playerToAttack);
+	void Attack();
 	void Defend();
 	void Rest();
 
@@ -20,6 +20,6 @@ public:
 	Fighter(int playerNumber);
 	~Fighter();
 private:
-	double maxHp;
+	const double maxHp = 20;
 };
 

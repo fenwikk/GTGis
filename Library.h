@@ -4,10 +4,7 @@
 #include <string>
 #include <functional>
 
-struct MenuItem {
-public:
-
-};
+#include "Fighter.h"
 
 struct PointMatrixElement {
 public:
@@ -19,12 +16,15 @@ void Clear();
 
 void Logo();
 
-void Row(std::vector<std::string> row);
-void Row(std::vector<std::string> row, int maxChars);
+void WaitForEnterPress();
 
-int Menu(std::vector<std::string> labels);
+void Row(std::vector<std::string> row, int maxChars = 75);
+
+int Menu(std::vector<std::string> labels, std::vector<bool> disabled = {});
 
 void Stats();
 
 std::string NameInput(int numberOfCharacters);
 std::vector<PointMatrixElement> DistributePoints(int availablePoints, std::string playerName, int playerNumber);
+
+Fighter** SortFightersBySpeed(Fighter** fighters);

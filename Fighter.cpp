@@ -3,6 +3,7 @@
 #include "Library.h"
 
 #include "Fighter.h"
+#include "Game.h"
 
 std::string Fighter::GenHpBar(int length) {
 	std::string bar = "";
@@ -18,21 +19,56 @@ std::string Fighter::GenHpBar(int length) {
 	return "[" + bar + "]";
 }
 
-void Fighter::Attack(Fighter* playerToAttack) {
-	playerToAttack->TakeDamage(this);
+void Fighter::Attack() {
+	Clear();
+
+	std::cout << "Who do you want to attack?\n";
+
+	std::vector<bool> disabledItems = {};
+	std::vector<std::string> names = {};
+	for (size_t i = 0; i < 5; i++) {
+		
+		if (Game::players[i] == nullptr) {
+			names.push_back("");
+			disabledItems.push_back(true);
+		}
+		else {
+			names.push_back(Game::players[i]->name);
+			if (Game::players[i] == this)
+				disabledItems.push_back(true);
+			else
+				disabledItems.push_back(false);
+		}
+	}
+	int whoToAttack = Menu(names, disabledItems);
+	Game::players[whoToAttack]->TakeDamage(this);
 }
 
 void Fighter::TakeDamage(Fighter* attacker) {
-	double damageDealt = attacker->strength / this->defense * 2;
+	double damageDealt = 20;
 	hp -= damageDealt;
 
 	Clear();
 
 	std::cout << attacker->name << " attacked " << this->name << "!\n";
-	std::cout << this->name << " took " << damageDealt << " damage.\n";
+	std::cout << this->name << " took damage.\n";
+
+	WaitForEnterPress();
+
+	if (hp <= 0) {
+		std::cout << "Player <" << name << "> perished.\n";
+		for (size_t i = 0; i < 5; i++) {
+			if (Game::players[i] == this) {
+				Game::players[i] = nullptr;
+			}
+		}
+		WaitForEnterPress();
+		delete this;
+	}
 }
 
-Fighter::Fighter(int playerNumber) {
+Fighter::Fighter(int playerNumber) : hp(20)
+{
 	HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
 
 	Clear();
@@ -44,9 +80,9 @@ Fighter::Fighter(int playerNumber) {
 	std::vector<PointMatrixElement> points = {};
 	bool acceptedPoints = false;
 	while (acceptedPoints == false) {
-		points = DistributePoints(10, name, playerNumber);
+		points = DistributePoints(10, newName, playerNumber);
 
-		std::cout << "<" << name << ">" << "\n";
+		std::cout << "<" << newName << ">" << "\n";
 		std::cout << "Defense:  ";
 		SetConsoleTextAttribute(hConsole, 14);
 		std::cout << points[0].points << "\n";
@@ -71,10 +107,8 @@ Fighter::Fighter(int playerNumber) {
 	defense = points[0].points;
 	strength = points[1].points;
 	speed = points[2].points;
-	hp = 20;
-	maxHp = 20;
 }
 
 Fighter::~Fighter() {
-
+	
 }

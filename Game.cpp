@@ -6,6 +6,7 @@ Game::Game() {}
 
 bool Game::started = false;
 Fighter** Game::players = nullptr;
+
 int Game::PlayersLeft() {
 	int playersLeft = 0;
 

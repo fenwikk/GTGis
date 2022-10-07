@@ -4,6 +4,7 @@
 #include "Library.h"
 #include "Fighter.h"
 #include <Windows.h>
+#include <algorithm>
 
 int main() {
 	HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
@@ -17,7 +18,7 @@ int main() {
 		int numberOfPlayers = Menu({ "2P", "3P", "4P", "5P" }) + 2;
 
 		for (size_t i = 0; i < numberOfPlayers; i++) 
-			players[i] = new Fighter(i);
+			players[i] = new Fighter(i + 1);
 
 		Game::players = players;
 
@@ -26,18 +27,41 @@ int main() {
 		Stats();
 
 		std::cout << "\nStart game?\n";
-		finishedSetup = !Menu({ "Yes", "No, restart setup" });
+		finishedSetup = !Menu({"Yes", "No"});
 	}
 
 	Game::started = true;
 
-	while (Game::PlayersLeft() > 0) {
+	int playerTurn = 0;
+	SortFightersBySpeed(players);
+	while (Game::PlayersLeft() > 1) {
+		int playersleft = Game::PlayersLeft();
+
 		Clear();
 
-		players[0]->Attack(players[1]);
+		std::cout << "<" << players[playerTurn]->name << ">s turn.\n";
+		std::cout << "What will you do?\n";
 
-		while (true);
+		int actionChoice = Menu({ "Attack", "Defend", "Rest" });
+
+		switch (actionChoice) {
+		case 0:
+			players[playerTurn]->Attack();
+		default:
+			break;
+		}
+
+		SortFightersBySpeed(players);
+
+		playerTurn++;
+		while (playerTurn < 5 && players[playerTurn] == nullptr) {
+			playerTurn++;
+		}
+		if (playerTurn >= 5)
+			playerTurn = 0;
 	}
+
+	std::cout << "<" << players[0]->name << "> won with " << players[0]->hp / .2 << "% HP left";
 
 	return 0;
 }

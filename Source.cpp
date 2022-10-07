@@ -63,14 +63,15 @@ int main() {
 			break;
 		}
 
-		SortFightersBySpeed(players);
-
 		playerTurn++;
 		while (playerTurn < 5 && players[playerTurn] == nullptr) {
 			playerTurn++;
 		}
 		if (playerTurn >= 5)
 			playerTurn = 0;
+
+		if (playerTurn == 0)
+			SortFightersBySpeed(players);
 	}
 
 	Fighter* lastPlayer = players[0];

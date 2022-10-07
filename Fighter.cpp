@@ -53,20 +53,20 @@ void Fighter::Attack() {
 void Fighter::Defend() {
 	Clear();
 
-	Write("<" + name + "> defended themselves\n");
+	Write("<" + name + "> defended themselves");
 	WaitForEnterPress();
 
 	defense += 2;
-	Write("<" + name + ">s defense went up by 2 points\n");
+	Write("<" + name + ">s defense went up by 2 points");
 	WaitForEnterPress();
 
 	if (speed > 0) {
 		speed--;
-		Write("<" + name + ">s speed went down by 1 point\n");
+		Write("<" + name + ">s speed went down by 1 point");
 		WaitForEnterPress();
 	}
 	else {
-		Write("<" + name + ">s speed is already at minimum. Speed was not changed\n");
+		Write("<" + name + ">s speed is already at minimum. Speed was not changed");
 		WaitForEnterPress();
 	}
 }
@@ -98,13 +98,13 @@ void Fighter::Rest() {
 
 	int originalHp = hp;
 
-	Write("<" + name + "> rested\n");
+	Write("<" + name + "> rested");
 	WaitForEnterPress();
 
 	hp += 20;
 	if (hp > 100)
 		hp = 100;
-	Write("<" + name + "> healed " + std::to_string(hp - originalHp) + " HP\n");
+	Write("<" + name + "> healed " + std::to_string(hp - originalHp) + " HP");
 	WaitForEnterPress();
 }
 
@@ -114,9 +114,10 @@ void Fighter::TakeDamage(Fighter* attacker) {
 
 	Clear();
 
-	Write("<" + attacker->name + "> attacked " + name + "!\n");
-	Write("<" + name + "> took " + std::to_string(damageDealt) +" damage.\n");
+	Write("<" + attacker->name + "> attacked <" + name + ">!");
+	WaitForEnterPress();
 
+	Write("<" + name + "> took " + std::to_string(damageDealt) +" damage.");
 	WaitForEnterPress();
 
 	if (hp <= 0) {
@@ -150,16 +151,21 @@ Fighter::Fighter(int playerNumber) : hp(maxHp)
 			Fighter* player = Game::players[i];
 			if (Game::players[i] != nullptr) 
 				if (Game::players[i]->name == name) {
+					SetConsoleTextAttribute(hConsole, 12);
 					std::cout << "The name <" << name << "> has already been taken. Retry with another name.\n";
+					SetConsoleTextAttribute(hConsole, 7);
 					isDuplicate = true;
 				}
 		}
 
 		if (!isDuplicate) {
 			Clear();
-			std::cout << "Accept name: <" << name << ">?\n";
+			std::cout << "Accept name <" << name << ">\n";
 
 			confirmedName = !Menu({ "Yes", "No" });
+
+			if (!confirmedName)
+				Clear();
 		}
 
 	}

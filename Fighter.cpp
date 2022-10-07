@@ -5,6 +5,8 @@
 #include "Fighter.h"
 #include "Game.h"
 
+static const double maxHp = 20;
+
 std::string Fighter::GenHpBar(int length) {
 	std::string bar = "";
 
@@ -45,7 +47,7 @@ void Fighter::Attack() {
 }
 
 void Fighter::TakeDamage(Fighter* attacker) {
-	double damageDealt = 20;
+	double damageDealt = attacker->strength / this->defense * 2;
 	hp -= damageDealt;
 
 	Clear();
@@ -67,7 +69,7 @@ void Fighter::TakeDamage(Fighter* attacker) {
 	}
 }
 
-Fighter::Fighter(int playerNumber) : hp(20)
+Fighter::Fighter(int playerNumber) : hp(maxHp)
 {
 	HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
 

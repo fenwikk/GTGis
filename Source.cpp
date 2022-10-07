@@ -61,7 +61,7 @@ int main() {
 			playerTurn = 0;
 	}
 
-	std::cout << "<" << players[0]->name << "> won with " << players[0]->hp / .2 << "% HP left";
+	std::cout << "<" << players[0]->name << "> won with " << (players[0]->hp / Fighter::maxHp) * 100 << "% HP left";
 
 	return 0;
 }

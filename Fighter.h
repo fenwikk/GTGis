@@ -4,6 +4,7 @@
 
 class Fighter {
 public:
+	static const double maxHp;
 	std::string name;
 	double defense;
 	double strength;
@@ -20,6 +21,5 @@ public:
 	Fighter(int playerNumber);
 	~Fighter();
 private:
-	const double maxHp = 20;
 };
 

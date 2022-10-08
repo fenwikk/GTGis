@@ -49,7 +49,6 @@ void Fighter::Attack() {
 	int whoToAttack = Menu(names, disabledItems);
 	Game::players[whoToAttack]->TakeDamage(this);
 }
-
 void Fighter::Defend() {
 	Clear();
 
@@ -70,7 +69,6 @@ void Fighter::Defend() {
 		WaitForEnterPress();
 	}
 }
-
 void Fighter::WorkUp() {
 	Clear();
 
@@ -92,7 +90,6 @@ void Fighter::WorkUp() {
 	}
 
 }
-
 void Fighter::Rest() {
 	Clear();
 
@@ -107,9 +104,8 @@ void Fighter::Rest() {
 	Write("<" + name + "> healed " + std::to_string(hp - originalHp) + " HP");
 	WaitForEnterPress();
 }
-
 void Fighter::TakeDamage(Fighter* attacker) {
-	int damageDealt = (int)floor(attacker->strength / this->defense * 20);
+	int damageDealt = floor(attacker->strength / this->defense * 20);
 	hp -= damageDealt;
 
 	Clear();
@@ -132,26 +128,167 @@ void Fighter::TakeDamage(Fighter* attacker) {
 	}
 }
 
-
-
 std::string Fighter::GetName() {
 	return name;
 }
-
 int Fighter::GetDefense() {
 	return defense;
 }
-
 int Fighter::GetStrength() {
 	return strength;
 }
-
 int Fighter::GetSpeed() {
 	return speed;
 }
-
 int Fighter::GetHp() {
 	return hp;
+}
+
+std::string Fighter::NameInput(int numberOfCharacters) {
+	std::string characterSet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+	std::string input = "";
+
+	HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
+	for (size_t currentCharacterIndex = 0; currentCharacterIndex < numberOfCharacters; currentCharacterIndex++) {
+		bool submitted = false;
+		int selectedIndex = 0;
+
+		while (!submitted) {
+			std::cout << "\r";
+			SetConsoleTextAttribute(hConsole, 12);
+			std::cout << "[";
+
+			for (size_t i = 0; i < numberOfCharacters; i++) {
+				if (i < currentCharacterIndex) {
+					SetConsoleTextAttribute(hConsole, 15);
+					std::cout << input.at(i);
+				}
+				if (i == currentCharacterIndex) {
+					SetConsoleTextAttribute(hConsole, 14);
+					std::cout << characterSet.at(selectedIndex);
+				}
+				if (i > currentCharacterIndex) {
+					SetConsoleTextAttribute(hConsole, 7);
+					std::cout << "-";
+				}
+			}
+
+			SetConsoleTextAttribute(hConsole, 12);
+			std::cout << "]";
+			SetConsoleTextAttribute(hConsole, 7);
+
+			bool commandPressed = false;
+			while (!commandPressed) {
+				if ((GetAsyncKeyState(VK_UP) & 0x8000) && selectedIndex > 0) {
+					selectedIndex--;
+					commandPressed = true;
+
+					while (GetAsyncKeyState(VK_UP) & 0x8000);
+				}
+				if ((GetAsyncKeyState(VK_DOWN) & 0x8000) && selectedIndex < (characterSet.length() - 1)) {
+					selectedIndex++;
+					commandPressed = true;
+
+					while (GetAsyncKeyState(VK_DOWN) & 0x8000);
+				}
+				if ((GetAsyncKeyState(VK_DELETE) & 0x8000) || (GetAsyncKeyState(VK_LEFT) & 0x8000) && currentCharacterIndex > 0) {
+					commandPressed = true;
+
+					input.erase(input.end() - 1);
+					currentCharacterIndex--;
+					selectedIndex = 0;
+
+					while ((GetAsyncKeyState(VK_DELETE) & 0x8000) || (GetAsyncKeyState(VK_LEFT) & 0x8000));
+				}
+				if ((GetAsyncKeyState(VK_RETURN) & 0x8000) || (GetAsyncKeyState(VK_RIGHT) & 0x8000)) {
+					submitted = true;
+					commandPressed = true;
+
+					input += characterSet.at(selectedIndex);
+
+					while ((GetAsyncKeyState(VK_RETURN) & 0x8000) || (GetAsyncKeyState(VK_RIGHT) & 0x8000));
+				}
+			}
+		}
+	}
+
+	SetConsoleTextAttribute(hConsole, 12);
+	std::cout << "\r[";
+
+	for (size_t i = 0; i < numberOfCharacters; i++) {
+		SetConsoleTextAttribute(hConsole, 15);
+		std::cout << input.at(i);
+	}
+
+	SetConsoleTextAttribute(hConsole, 12);
+	std::cout << "]\n";
+	SetConsoleTextAttribute(hConsole, 7);
+
+	return input;
+}
+std::vector<PointMatrixElement> Fighter::DistributePoints(int availablePoints, std::string playerName, int playerNumber) {
+	std::vector<PointMatrixElement> pointsMatrix{
+		{"Defense:  ", 5},
+		{"Strength: ", 5},
+		{"Speed:    ", 5}
+	};
+
+	bool submitted = false;
+	int selectedIndex = 0;
+
+	HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
+	while (availablePoints > 0) {
+		Clear();
+
+		std::cout << "Distribute skillpoints for <" << playerName << ">\n";
+		std::cout << "Remaining points: " << availablePoints << "\n\n";
+
+		for (int i = 0; i < pointsMatrix.size(); i++) {
+			std::cout << pointsMatrix[i].label;
+			SetConsoleTextAttribute(hConsole, 12);
+			std::cout << ((selectedIndex == i && pointsMatrix[i].points != 5) ? "< " : "  ");
+			SetConsoleTextAttribute(hConsole, 15);
+			std::cout << pointsMatrix[i].points;
+			SetConsoleTextAttribute(hConsole, 12);
+			std::cout << (selectedIndex == i ? " >" : "  ");
+			SetConsoleTextAttribute(hConsole, 7);
+			std::cout << "\n";
+		}
+
+		bool commandPressed = false;
+		while (!commandPressed) {
+			if ((GetAsyncKeyState(VK_UP) & 0x8000) && selectedIndex > 0) {
+				selectedIndex--;
+				commandPressed = true;
+
+				while (GetAsyncKeyState(VK_UP) & 0x8000);
+			}
+			if (((GetAsyncKeyState(VK_DOWN) & 0x8000) || (GetAsyncKeyState(VK_RETURN) & 0x8000)) && selectedIndex < (pointsMatrix.size() - 1)) {
+				selectedIndex++;
+				commandPressed = true;
+
+				while ((GetAsyncKeyState(VK_DOWN) & 0x8000) || (GetAsyncKeyState(VK_RETURN) & 0x8000));
+			}
+			if ((GetAsyncKeyState(VK_LEFT) & 0x8000) && pointsMatrix[selectedIndex].points > 5) {
+				pointsMatrix[selectedIndex].points--;
+				availablePoints++;
+				commandPressed = true;
+
+				while (GetAsyncKeyState(VK_LEFT) & 0x8000);
+			}
+			if ((GetAsyncKeyState(VK_RIGHT) & 0x8000)) {
+				pointsMatrix[selectedIndex].points++;
+				availablePoints--;
+				commandPressed = true;
+
+				while (GetAsyncKeyState(VK_RIGHT) & 0x8000);
+			}
+		}
+	}
+
+	Clear();
+
+	return pointsMatrix;
 }
 
 Fighter::Fighter(int playerNumber) : hp(maxHp)
@@ -222,7 +359,6 @@ Fighter::Fighter(int playerNumber) : hp(maxHp)
 	strength = points[1].points;
 	speed = points[2].points;
 }
-
 Fighter::~Fighter() {
 	
 }

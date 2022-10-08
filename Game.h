@@ -6,7 +6,7 @@ class Game {
 public:
 	static bool started;
 	static Fighter** players;
-	static int PlayersLeft();
 
-	Game();
+	static int PlayersLeft();
+	static void Stats();
 };

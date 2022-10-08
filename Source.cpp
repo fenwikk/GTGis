@@ -25,7 +25,7 @@ int main() {
 
 		Clear();
 
-		Stats();
+		Game::Stats();
 
 		std::cout << "\nStart game?\n";
 		finishedSetup = !Menu({"Yes", "No"});

@@ -13,8 +13,8 @@ void Write(std::string s);
 
 void WaitForEnterPress();
 
-void Row(std::vector<std::string> row, int maxChars = 75);
+void Row(std::string row[], int numberOfColumns, int maxChars = 75);
 
-int Menu(std::vector<std::string> labels, std::vector<bool> disabled = {});
+int Menu(std::string labels[], int numberOfLabels, std::vector<bool> disabled = {});
 
 Fighter** SortFightersBySpeed(Fighter** fighters);

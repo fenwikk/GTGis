@@ -1,13 +1,6 @@
 #pragma once
 
 #include <string>
-#include <vector>
-
-struct PointMatrixElement {
-public:
-	std::string label;
-	int points;
-};
 
 class Fighter {
 public:
@@ -25,9 +18,11 @@ public:
 	int GetStrength();
 	int GetSpeed();
 	int GetHp();
+	int GetDamageDealt();
+	int GetKills();
 
 	std::string NameInput(int numberOfCharacters);
-	std::vector<PointMatrixElement> DistributePoints(int availablePoints, std::string playerName, int playerNumber);
+	void DistributePoints(int availablePoints, std::string playerName, int playerNumber);
 
 	Fighter(int playerNumber);
 	~Fighter();
@@ -37,4 +32,6 @@ private:
 	int strength;
 	int speed;
 	int hp;
+	int damageDealt;
+	int kills;
 };

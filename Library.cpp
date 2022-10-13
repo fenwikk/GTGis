@@ -43,22 +43,23 @@ void WaitForEnterPress() {
 
 void Logo() {
 	std::cout << ",-----------------------------------------------------------------------,\n";
-	std::cout << "|                  ___________________________.__                       |\n";
-	std::cout << "|                 /  _____/\\__    ___/  _____/|__| ______               |\n";
-	std::cout << "|                /   \\  ___  |    | /   \\  ___|  |/  ___/               |\n";
-	std::cout << "|                \\    \\_\\  \\ |    | \\    \\_\\  \\  |\\___ \\                |\n";
-	std::cout << "|                 \\______  / |____|  \\______  /__/____  >               |\n";
-	std::cout << "|                        \\/                 \\/        \\/                |\n";
+	std::cout << "|            ___________.__       .__     __                            |\n";
+	std::cout << "|            \\_   _____/|__| ____ |  |___/  |_  ___________             |\n";
+	std::cout << "|             |    __)  |  |/ ___\\|  |  \\   __\\/ __ \\_  __ \\            |\n";
+	std::cout << "|             |     \\   |  / /_/  >   Y  \\  | \\  ___/|  | \\/            |\n";
+	std::cout << "|             \\___  /   |__\\___  /|___|  /__|  \\___  >__|               |\n";
+	std::cout << "|                 \\/      /_____/      \\/          \\/                   |\n";
+	std::cout << "|                                                                       |\n";
 	std::cout << "'-----------------------------------------------------------------------'\n\n";
 }
 
-void Row(std::vector<std::string> row, int maxChars) {
-	for (size_t i = 0; i < row.size(); i++)
+void Row(std::string row[], int numberOfColumns, int maxChars) {
+	for (size_t i = 0; i < numberOfColumns; i++)
 	{
 		std::string cell = row[i];
 
 		std::string space = "";
-		for (size_t i = 0; i < (maxChars / row.size() - cell.length()); i++) {
+		for (size_t i = 0; i < (maxChars / numberOfColumns - cell.length()); i++) {
 			space += " ";
 		}
 		std::cout << cell + space;
@@ -67,26 +68,26 @@ void Row(std::vector<std::string> row, int maxChars) {
 	std::cout << std::endl;
 }
 
-int Menu(std::vector<std::string> labels, std::vector<bool> disabled) {
-	if (disabled.size() < labels.size())
-		for (size_t i = disabled.size(); i < labels.size(); i++) {
+int Menu(std::string labels[], int numberOfLabels, std::vector<bool> disabled) {
+	if (disabled.size() < numberOfLabels)
+		for (size_t i = disabled.size(); i < numberOfLabels; i++) {
 			disabled.push_back(false);
 		}
 
 	bool submitted = false;
 	int selectedIndex = 0;
 
-	while (disabled[selectedIndex] && selectedIndex <= (labels.size() - 1)) {
+	while (disabled[selectedIndex] && selectedIndex <= (numberOfLabels - 1)) {
 		selectedIndex++;
 	}
-	if (selectedIndex > (labels.size() - 1))
+	if (selectedIndex > (numberOfLabels - 1))
 		throw new Error("Menu only has disabled items.");
 
 	HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
 	while (!submitted) {
 		std::cout << "\r";
 
-		for (size_t i = 0; i < labels.size(); i++) {
+		for (size_t i = 0; i < numberOfLabels; i++) {
 			SetConsoleTextAttribute(hConsole, 12);
 			std::cout << (selectedIndex == i ? ">" : " ");
 			SetConsoleTextAttribute(hConsole, (disabled[i] ? 7 : 15));
@@ -112,13 +113,13 @@ int Menu(std::vector<std::string> labels, std::vector<bool> disabled) {
 
 				while (GetAsyncKeyState(VK_LEFT) & 0x8000);
 			}
-			if ((GetAsyncKeyState(VK_RIGHT) & 0x8000) && selectedIndex < (labels.size() - 1)) {
+			if ((GetAsyncKeyState(VK_RIGHT) & 0x8000) && selectedIndex < (numberOfLabels - 1)) {
 				int originalIndex = selectedIndex;
 				selectedIndex++;
-				while (selectedIndex <= (labels.size() - 1) && disabled[selectedIndex]) {
+				while (selectedIndex <= (numberOfLabels - 1) && disabled[selectedIndex]) {
 					selectedIndex++;
 				}
-				if (selectedIndex > (labels.size() - 1))
+				if (selectedIndex > (numberOfLabels - 1))
 					selectedIndex = originalIndex;
 
 				commandPressed = true;

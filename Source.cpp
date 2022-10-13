@@ -17,7 +17,9 @@ int main() {
 	while (finishedSetup == false) {
 		Clear();
 		std::cout << "How many will play?\n";
-		int numberOfPlayers = Menu({ "2P", "3P", "4P", "5P" }) + 2;
+
+		std::string playerNumberItems[] = {"2P", "3P", "4P", "5P"};
+		int numberOfPlayers = Menu(playerNumberItems, 4) + 2;
 
 		for (int i = 0; i < numberOfPlayers; i++) 
 			players[i] = new Fighter(i + 1);
@@ -28,7 +30,8 @@ int main() {
 		Game::Stats();
 
 		std::cout << "\nStart game?\n";
-		finishedSetup = !Menu({"Yes", "No"});
+		std::string finishedSetupMenuItems[] = {"Yes", "No"};
+		finishedSetup = !Menu(finishedSetupMenuItems, 2);
 	}
 
 	Game::started = true;
@@ -43,10 +46,11 @@ int main() {
 		if (currentPlayer == nullptr)
 			throw new Error("Player does not exist!");
 
-		std::cout << "<" << currentPlayer->GetName() << ">s turn.\n";
+		Write("<" + currentPlayer->GetName() + ">s turn.\n");
 		std::cout << "What will you do?\n";
 
-		int actionChoice = Menu({ "Attack", "Defend", "Work up", "Rest" });
+		std::string actionChoiceItems[] = {"Attack", "Defend", "Work up", "Rest"};
+		int actionChoice = Menu(actionChoiceItems, 4);
 
 		switch (actionChoice) {
 		case 0:
@@ -77,12 +81,37 @@ int main() {
 			SortFightersBySpeed(players);
 	}
 
+	Clear();
+
 	Fighter* lastPlayer = players[0];
 
 	if (lastPlayer == nullptr)
 		throw new Error("No one is left alive");
 
+	Game::leaderboard[0] = new LeaderboardItem(lastPlayer->GetName(), lastPlayer->GetDamageDealt(), lastPlayer->GetKills());
 	std::cout << "<" << lastPlayer->GetName() << "> won with " << lastPlayer->GetHp() << " HP left";
+	WaitForEnterPress();
+
+	Game::started = false;
+	Clear();
+
+	std::cout << "Leaderboard:\n";
+	std::string leaderBoardHeader[] = {"Place", "Name", "Damage Dealt", "Kills"};
+	Row(leaderBoardHeader, 4);
+	for (size_t i = 0; i < 5; i++) {
+		if (Game::leaderboard[i] != nullptr) {
+			LeaderboardItem* currentPlayer = Game::leaderboard[i];
+
+			std::string entry[] = {
+				std::to_string(i + 1),
+				"<" + currentPlayer->GetName() + ">",
+				std::to_string(currentPlayer->GetDamageDealt()),
+				std::to_string(currentPlayer->GetKills()),
+			};
+
+			Row(entry, 4);
+		}
+	}
 
 	return 0;
 }

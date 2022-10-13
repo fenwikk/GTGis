@@ -130,6 +130,7 @@
   <ItemGroup>
     <ClCompile Include="Fighter.cpp" />
     <ClCompile Include="Game.cpp" />
+    <ClCompile Include="Leaderboard.cpp" />
     <ClCompile Include="Library.cpp" />
     <ClCompile Include="Source.cpp" />
   </ItemGroup>
@@ -137,6 +138,7 @@
     <ClInclude Include="Error.h" />
     <ClInclude Include="Fighter.h" />
     <ClInclude Include="Game.h" />
+    <ClInclude Include="Leaderboard.h" />
     <ClInclude Include="Library.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

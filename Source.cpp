@@ -4,26 +4,24 @@
 #include "Error.h"
 #include "Library.h"
 #include "Fighter.h"
-#include <Windows.h>
 #include <algorithm>
 
-int main() {
-	HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
-
+int main()
+{
 	bool finishedSetup = false;
 
-	Fighter* players[] = {nullptr, nullptr, nullptr, nullptr, nullptr};
+	Fighter *players[] = {nullptr, nullptr, nullptr, nullptr, nullptr};
 	Game::players = players;
-	while (finishedSetup == false) {
+	while (finishedSetup == false)
+	{
 		Clear();
 		std::cout << "How many will play?\n";
 
 		std::string playerNumberItems[] = {"2P", "3P", "4P", "5P"};
 		int numberOfPlayers = Menu(playerNumberItems, 4) + 2;
 
-		for (int i = 0; i < numberOfPlayers; i++) 
+		for (int i = 0; i < numberOfPlayers; i++)
 			players[i] = new Fighter(i + 1);
-
 
 		Clear();
 
@@ -38,21 +36,23 @@ int main() {
 
 	int playerTurn = 0;
 	SortFightersBySpeed(players);
-	while (Game::PlayersLeft() > 1) {
-		Fighter* currentPlayer = players[playerTurn];
+	while (Game::PlayersLeft() > 1)
+	{
+		Fighter *currentPlayer = players[playerTurn];
 
 		Clear();
 
 		if (currentPlayer == nullptr)
 			throw new Error("Player does not exist!");
 
-		Write("<" + currentPlayer->GetName() + ">s turn.\n");
+		std::cout << "<" << currentPlayer->name() << ">s turn.\n";
 		std::cout << "What will you do?\n";
 
 		std::string actionChoiceItems[] = {"Attack", "Defend", "Work up", "Rest"};
 		int actionChoice = Menu(actionChoiceItems, 4);
 
-		switch (actionChoice) {
+		switch (actionChoice)
+		{
 		case 0:
 			currentPlayer->Attack();
 			break;
@@ -71,7 +71,8 @@ int main() {
 		}
 
 		playerTurn++;
-		while (playerTurn < 5 && players[playerTurn] == nullptr) {
+		while (playerTurn < 5 && players[playerTurn] == nullptr)
+		{
 			playerTurn++;
 		}
 		if (playerTurn >= 5)
@@ -83,13 +84,13 @@ int main() {
 
 	Clear();
 
-	Fighter* lastPlayer = players[0];
+	Fighter *lastPlayer = players[0];
 
 	if (lastPlayer == nullptr)
 		throw new Error("No one is left alive");
 
-	Game::leaderboard[0] = new LeaderboardItem(lastPlayer->GetName(), lastPlayer->GetDamageDealt(), lastPlayer->GetKills());
-	std::cout << "<" << lastPlayer->GetName() << "> won with " << lastPlayer->GetHp() << " HP left";
+	Game::leaderboard[0] = new LeaderboardItem(lastPlayer->name(), lastPlayer->damageDealt(), lastPlayer->kills());
+	std::cout << "<" << lastPlayer->name() << "> won with " << lastPlayer->hp() << " HP left";
 	WaitForEnterPress();
 
 	Game::started = false;
@@ -98,15 +99,17 @@ int main() {
 	std::cout << "Leaderboard:\n";
 	std::string leaderBoardHeader[] = {"Place", "Name", "Damage Dealt", "Kills"};
 	Row(leaderBoardHeader, 4);
-	for (size_t i = 0; i < 5; i++) {
-		if (Game::leaderboard[i] != nullptr) {
-			LeaderboardItem* currentPlayer = Game::leaderboard[i];
+	for (size_t i = 0; i < 5; i++)
+	{
+		if (Game::leaderboard[i] != nullptr)
+		{
+			LeaderboardItem *currentPlayer = Game::leaderboard[i];
 
 			std::string entry[] = {
 				std::to_string(i + 1),
-				"<" + currentPlayer->GetName() + ">",
-				std::to_string(currentPlayer->GetDamageDealt()),
-				std::to_string(currentPlayer->GetKills()),
+				"<" + currentPlayer->name() + ">",
+				std::to_string(currentPlayer->damageDealt()),
+				std::to_string(currentPlayer->kills()),
 			};
 
 			Row(entry, 4);

@@ -2,7 +2,8 @@
 
 #include <string>
 
-class Fighter {
+class Fighter
+{
 public:
 	const int maxHp = 100;
 
@@ -11,27 +12,27 @@ public:
 	void Defend();
 	void WorkUp();
 	void Rest();
-	void TakeDamage(Fighter* attacker);
 
-	std::string GetName();
-	int GetDefense();
-	int GetStrength();
-	int GetSpeed();
-	int GetHp();
-	int GetDamageDealt();
-	int GetKills();
+	std::string name() { return _name; }
+	int defense() { return _defense; }
+	int strength() { return _strength; }
+	int speed() { return _speed; }
+	int hp() { return _hp; }
+	int damageDealt() { return _damageDealt; }
+	int kills() { return _kills; }
 
 	std::string NameInput(int numberOfCharacters);
-	void DistributePoints(int availablePoints, std::string playerName, int playerNumber);
+	void DistributePoints(int availablePoints, std::string playerName);
 
 	Fighter(int playerNumber);
 	~Fighter();
+
 private:
-	std::string name;
-	int defense;
-	int strength;
-	int speed;
-	int hp;
-	int damageDealt;
-	int kills;
+	std::string _name;
+	int _defense;
+	int _strength;
+	int _speed;
+	int _hp;
+	int _damageDealt;
+	int _kills;
 };

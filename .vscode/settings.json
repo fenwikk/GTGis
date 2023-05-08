@@ -1,0 +1,18 @@
+{
+	"files.associations": {
+		"*.css": "tailwindcss",
+		"*.rh": "cpp",
+		"compare": "cpp",
+		"locale": "cpp",
+		"ostream": "cpp",
+		"system_error": "cpp",
+		"xlocale": "cpp",
+		"xlocinfo": "cpp",
+		"xlocnum": "cpp",
+		"xloctime": "cpp",
+		"xmemory": "cpp",
+		"xstddef": "cpp",
+		"xutility": "cpp",
+		"atomic": "cpp"
+	}
+}

@@ -1,16 +1,16 @@
 #include "Leaderboard.h"
 
 LeaderboardItem::LeaderboardItem(std::string newName, int newDamageDealt, int newKills) : 
-	name(newName), 
-	damageDealt(newDamageDealt),
-	kills(newKills) {}
+	_name(newName), 
+	_damageDealt(newDamageDealt),
+	_kills(newKills) {}
 
-std::string LeaderboardItem::GetName() {
-	return name;
+std::string LeaderboardItem::name() {
+	return _name;
 }
-int LeaderboardItem::GetDamageDealt() {
-	return damageDealt;
+int LeaderboardItem::damageDealt() {
+	return _damageDealt;
 }
-int LeaderboardItem::GetKills() {
-	return kills;
+int LeaderboardItem::kills() {
+	return _kills;
 }

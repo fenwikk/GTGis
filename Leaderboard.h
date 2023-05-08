@@ -1,15 +1,17 @@
 #pragma once
 #include <string>
 
-class LeaderboardItem {
+class LeaderboardItem
+{
 public:
 	LeaderboardItem(std::string newName, int newDamageDealt, int newKills);
 
-	std::string GetName();
-	int GetDamageDealt();
-	int GetKills();
+	std::string name();
+	int damageDealt();
+	int kills();
+
 private:
-	std::string name;
-	int damageDealt;
-	int kills;
+	std::string _name;
+	int _damageDealt;
+	int _kills;
 };
